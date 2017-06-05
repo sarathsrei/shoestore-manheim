@@ -1,8 +1,13 @@
-Given /^I am on the site "([^"]*)"$/ do |url|
-  pending
+require 'watir-webdriver'
+require 'watir'
+require 'cucumber'
+
+Given /^I am on the shoe store site$/ do |url|
+  @browser = Watir::Browser.new:chrome
+  @browser.goto "http://shoestore-manheim.rhcloud.com/"
 end
 
-Then /^A shoe with brand "([^"]*)"$/ do |brand|
+Then /^I enter shoe brand  "([^"]*)"$/ do |brand|
   ShoeFactory.create :brand => brand
 end
 
