@@ -1,8 +1,8 @@
 Feature: Shoes store at Manheim
 
 Scenario: Searching for shoes by brand
-    Given I am on the site "http://shoestore-manheim.rhcloud.com/"
-    Then A shoe with brand "Acorn"
+    Given I am on the shoe store site
+    Then I enter shoe brand "Acorn"
     When I search for brand "Acorn"
     Then I should see 1 shoe
 
