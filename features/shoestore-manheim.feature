@@ -3,12 +3,11 @@ Feature: Shoes store at Manheim
 Scenario: Searching for shoes by brand
     Given I am on the shoe store site
     Then I enter shoe brand "Acorn"
-    When I search for brand "Acorn"
+    When I click search to display the shoes
     Then I should see 1 shoe
 
 Scenario: Showing all shoes
-    Given 9 shoes
-    When I view all shoes
+    Given I view all shoes
     Then I should see 9 shoes
 
 Scenario Outline: Showing shoes by month
