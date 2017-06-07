@@ -12,7 +12,7 @@ Scenario: Showing all shoes
     Then I should see all shoes
 
   Scenario Outline: Display Shoes for Each Month
-    Given I click on "<Month>"
+    When I click on "<Month>"
     Then I should see shoes displayed on the page
     And I should see a suggested price for each shoe
     And I should see a small blurb for each shoe
@@ -34,7 +34,6 @@ Scenario: Showing all shoes
       | December |
 
   Scenario Outline: Subscribe to Receive New Releases by Month
-    Given I am on the Shoe Store landing page
     Then a text field for email should be present
     When I enter my "<Email>" into the form field
     And I click button to submit email
