@@ -1,35 +1,47 @@
 Feature: Shoes store at Manheim
 
+  Background: I am on the shoe store site
+
 Scenario: Searching for shoes by brand
-    Given I am on the shoe store site
     Then I enter shoe brand "Acorn"
     When I click search to display the shoes
     Then I should see 1 shoe
 
 Scenario: Showing all shoes
-    Given I view all shoes
-    Then I should see 9 shoes
+    When I view all shoes
+    Then I should see all shoes
 
-Scenario Outline: Showing shoes by month
-    Given A shoe for month: <month>
-    Then I should see 1 shoe for month: <month>
-  
-  Examples:
-    | month     |
-    | January   |
-    | February  |
-    | March     |
-    | April     |
-    | May       |
-    | June      |
-    | July      |
-    | August    |
-    | September |
-    | October   |
-    | November  |
-    | December  |
-    
-Scenario: Submiting the invalid promotion code
-    Given I enter the invalide promotion code "10000"
-    When I hit on Submit button
-    Then I should see error message "The code: 10000 is not a valid promotional code"
+  Scenario Outline: Display Shoes for Each Month
+    Given I click on "<Month>"
+    Then I should see shoes displayed on the page
+    And I should see a suggested price for each shoe
+    And I should see a small blurb for each shoe
+    And I should see an image for each shoe
+
+    Examples:
+      | Month |
+      | January |
+      | February |
+      | March |
+      | April |
+      | May |
+      | June |
+      | July |
+      | August |
+      | September |
+      | October |
+      | November |
+      | December |
+
+  Scenario Outline: Subscribe to Receive New Releases by Month
+    Given I am on the Shoe Store landing page
+    Then a text field for email should be present
+    When I enter my "<Email>" into the form field
+    And I click button to submit email
+    And I should see confirmation message
+
+    Examples:
+      | Email |
+      | sarath@email.com |
+      | john@email.com |
+      | jason@email.com |

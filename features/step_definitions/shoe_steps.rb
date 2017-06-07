@@ -1,44 +1,57 @@
-require 'watir-webdriver'
-require 'watir'
-require 'cucumber'
-
 Given /^I am on the shoe store site$/ do |url|
-  @browser = Watir::Browser.new:chrome
-  @browser.goto "http://shoestore-manheim.rhcloud.com/"
+  ShoeStore.new($browser).open
 end
 
 Then /^I enter shoe brand  "([^"]*)"$/ do |brand|
-  @browser.select_list(:id, "brand").select "brand"
+    ShoeStore.new($browser).shoe_brand
 end
 
 When /^I click search to display the shoes$/ do
-  @browser.button(:id, "search_button").click
-end
-
-Given /^A shoe for month: (.*)$/ do |month|
-   @browser.ul(:url, "href="/months/january"").click"{month}"
+  ShoeStore.click_shoes
 end
 
 When /^I view all shoes$/ do
-  @browser.link(:url, "href="/shoes"").click
+  ShoeStore.view_all_shoes
 end
 
 Then /^I should see all shoes$/ do
-  @browser.ul(:id, "shoe_list").visible.lis.length
+  ShoeStore.count_all_shoes
 end
 
-Then /^I should see (\d+) shoe for month: (.*)$/ do |month|
-  pending
+Given(/^I click on "(.*?)"$/) do |month|
+  ShoeStore.new($browser).click_month(month)
 end
 
-Then /^I enter the invalide promotion code (.*)$/ do |promotion_code|
-  @browser.text_field(:id, "promo_code_input").set("promotion_code")
+Then (/^I should see shoes displayed on the page$/) do
+  expect(LandingPage.new($browser).shoes_present?).to be true
 end
 
-Then /^I hit on Submit button $/ do |button|
-  @browser.button(:input, "submit").click
+Then(/^I should see a suggested price for each shoe$/) do
+  expect(LandingPage.new($browser).prices_present?).to be true
 end
 
-Then(/^I should see error message "([^"]*)"$/) do |arg1|
-   Watir::Wait.until { @browser.text.include? arg1}
+Then(/^I should see a small blurb for each shoe$/) do
+  expect(LandingPage.new($browser).blurbs_present?).to be true
+end
+
+Then(/^I should see an image for each shoe$/) do
+  expect(LandingPage.new($browser).images_present?).to be true
+end
+
+Then(/^a text field for email should be present$/) do
+  expect(LandingPage.new($browser).textfield_exists?).to be true
+end
+
+When(/^I enter my "([^"]*)" into the form field$/) do |email|
+  @email = email
+  @landingpage = LandingPage.new($browser)
+  @homepage.input_email(@email)
+end
+
+When(/^I click button to submit email$/) do
+  @landingpage.submit_email
+end
+
+Then(/^I should see confirmation message$/) do
+  expect("#{@landingpage.text}").to eql("Thanks! We will notify you the update on the shoe by email: #{@email}")
 end
